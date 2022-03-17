@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Button = ({ onclick, text }) => <Button onclick={onclick}>{text}</Button>;
+const Button = ({ onclick, text }) => <button onclick={onclick}>{text}</button>;
 
 const Header = ({ text }) => {
   return (
@@ -12,12 +12,6 @@ const Header = ({ text }) => {
 const Statistics = ({ text, value }) => {
   return (
     <div>
-      <p>
-        {text} {value}
-      </p>
-      <p>
-        {text} {value}
-      </p>
       <p>
         {text} {value}
       </p>
