@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Button = ({ onclick, text }) => <button onclick={onclick}>{text}</button>;
+const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 
 const Header = ({ text }) => {
   return (
@@ -38,9 +38,9 @@ const App = () => {
   return (
     <div>
       <Header text="Give feedback" />
-      <Button onclick={handleGood} text="Good" />
-      <Button onclick={handleNeutral} text="Neutral" />
-      <Button onclick={handleBad} text="Bad" />
+      <Button onClick={handleGood} text="Good" />
+      <Button onClick={handleNeutral} text="Neutral" />
+      <Button onClick={handleBad} text="Bad" />
       <Statistics text="Good" value={good} />
       <Statistics text="Neutral" value={neutral} />
       <Statistics text="Bad" value={bad} />
