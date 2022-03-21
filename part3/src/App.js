@@ -37,8 +37,6 @@ const App = () => {
     setSelected(Math.floor(Math.random() * 6));
   };
 
-  
-
   return (
     <div>
       <ShowAnecdote text={anecdotes[selected]} votes={points[selected]} />
