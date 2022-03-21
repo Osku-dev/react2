@@ -28,7 +28,7 @@ const App = () => {
   const max = Math.max.apply(Math, points);
 
   const addVote = () => {
-    const pointCopy = { ...points };
+    const pointCopy = [...points];
     pointCopy[selected] += 1;
     setPoints(pointCopy);
   };
