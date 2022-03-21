@@ -24,7 +24,7 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
-  const [points, setPoints] = useState(new Array(anecdotes.lenghts).fill(0));
+  const [points, setPoints] = useState(new Array(anecdotes.length).fill(0));
   const max = Math.max.apply(Math, points);
 
   const addVote = () => {
@@ -36,6 +36,8 @@ const App = () => {
   const handleSelected = () => {
     setSelected(Math.floor(Math.random() * 6));
   };
+
+  
 
   return (
     <div>
