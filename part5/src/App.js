@@ -6,11 +6,13 @@ const Header = ({ name }) => {
   );
 };
 const Content = ({ content }) => {
+  const total = content.reduce((sum, p) => (sum += p.exercises), 0);
   return (
     <div>
       {content.map((part) => (
         <Part key={part.id} part={part} />
-      ))}
+      ))}{" "}
+      <br /> Total: {total}
     </div>
   );
 };
