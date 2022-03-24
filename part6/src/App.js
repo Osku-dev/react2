@@ -1,22 +1,14 @@
 import { useState } from "react";
 
-const List = ({ persons }) => {
-  return (
-    <div>
-      <li> {persons.name}</li>
-    </div>
-  );
-};
-
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+  const [persons, setPersons] = useState([{ name: "Arto Hellas", id: 1 }]);
   const [newName, setNewName] = useState("");
 
   const addName = (event) => {
     event.preventDefault();
     const nameObject = {
       name: newName,
-      // id: persons.length + 1,
+      id: persons.length + 1,
     };
 
     setPersons(persons.concat(nameObject));
@@ -37,7 +29,9 @@ const App = () => {
         <div>
           <button type="submit">add</button>
           <ul>
-            <List persons={persons} />
+            {persons.map((person) => (
+              <li key={person.id}> {person.name}</li>
+            ))}
           </ul>
         </div>
       </form>
