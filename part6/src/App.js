@@ -6,10 +6,10 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault();
-    const duplicates = persons.filter(
-      (person) => person.name == event.target.value
-    );
-    if (duplicates.length > 0) return;
+
+    const duplicates = persons.filter((person) => person.name == newName);
+    if (duplicates.length > 0) return window.alert("duplicate");
+
     const nameObject = {
       name: newName,
       id: persons.length + 1,
