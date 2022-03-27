@@ -8,7 +8,7 @@ const App = () => {
     event.preventDefault();
 
     const duplicates = persons.filter((person) => person.name == newName);
-    if (duplicates.length > 0) return window.alert("duplicate");
+    if (duplicates.length > 0) return window.alert(`${newName} is a duplicate`);
 
     const nameObject = {
       name: newName,
