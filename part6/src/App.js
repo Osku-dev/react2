@@ -6,6 +6,10 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault();
+    const duplicates = persons.filter(
+      (person) => person.name == event.target.value
+    );
+    if (duplicates.length > 0) return;
     const nameObject = {
       name: newName,
       id: persons.length + 1,
@@ -15,7 +19,6 @@ const App = () => {
     setNewName("");
   };
   const handleNewName = (event) => {
-    console.log(event.target.value);
     setNewName(event.target.value);
   };
 
