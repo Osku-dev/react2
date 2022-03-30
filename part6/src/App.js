@@ -3,14 +3,17 @@ import { useState } from "react";
 const App = () => {
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", id: 1, number: "050488302381" },
+    { name: "Aaro dababada", id: 2, number: "05048842132" },
+    { name: "sasasa bgegabada", id: 3, number: "0505123125" },
   ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [newSearch, setNewSearch] = useState("");
 
   const addName = (event) => {
     event.preventDefault();
 
-    const duplicates = persons.filter((person) => person.name == newName);
+    const duplicates = persons.filter((person) => person.name === newName);
     if (duplicates.length > 0) return window.alert(`${newName} is a duplicate`);
 
     const nameObject = {
@@ -20,21 +23,29 @@ const App = () => {
     };
 
     setPersons(persons.concat(nameObject));
+
     setNewName("");
     setNewNumber("");
   };
 
   const handleNewName = (event) => {
+    console.log(event.target.value);
     setNewName(event.target.value);
   };
 
   const handleNewNumber = (event) => {
     setNewNumber(event.target.value);
   };
+  const handleNewSearch = (event) => {
+    setNewSearch(event.target.value);
+  };
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        filter: <input value={newSearch} onChange={handleNewSearch} />{" "}
+      </div>
       <form onSubmit={addName}>
         <div>
           name: <input value={newName} onChange={handleNewName} />{" "}
