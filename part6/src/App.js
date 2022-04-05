@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const AddForm = ({
   newName,
@@ -41,14 +42,15 @@ const Persons = ({ filteredList }) => (
 );
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", id: 1, number: "050488302381" },
-    { name: "Aaro dababada", id: 2, number: "05048842132" },
-    { name: "sasasa bgegabada", id: 3, number: "0505123125" },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
+  useEffect(() => {
+    axios.get("http://localhost:3001/persons").then((response) => {
+      setPersons(response.data);
+    });
+  }, []);
 
   const filteredList = persons.filter((person) =>
     person.name.toLowerCase().includes(newSearch.toLowerCase())
