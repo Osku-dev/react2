@@ -8,14 +8,14 @@ const Filter = ({ handleNewSearch }) => (
 );
 
 const Render10 = ({ filteredList }) =>
-  filteredList.map((country) => <div key={country.name}>{country.name}</div>);
+  filteredList.map((country) => <div key={country.name.common}>{country.name.common}</div>);
 
 const App = () => {
   const [countries, setCountries] = useState([]);
 
   const [newSearch, setNewSearch] = useState("");
   useEffect(() => {
-    axios.get("https://restcountries.com/v2/all").then((response) => {
+    axios.get("https://restcountries.com/v3.1/all").then((response) => {
       setCountries(response.data);
     });
   }, []);
@@ -24,7 +24,7 @@ const App = () => {
     newSearch === ""
       ? []
       : countries.filter((country) =>
-          country.name.toLowerCase().includes(newSearch.toLowerCase())
+          country.name.common.toLowerCase().includes(newSearch.toLowerCase())
         );
 
   const handleNewSearch = (event) => {
