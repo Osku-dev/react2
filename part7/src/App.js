@@ -7,33 +7,28 @@ const Filter = ({ handleNewSearch }) => (
   </div>
 );
 
-const Persons = ({ filteredList }) => (
-  <div>
-    <ul>
-      {filteredList.map((person) => (
-        <li key={person.id}>
-          {" "}
-          {person.name} {person.number}
-        </li>
-      ))}
-    </ul>
-  </div>
-);
+
+const Render10 = ({filteredList}) =>
+  filteredList.map(country =>
+    <div key={country.name}>
+      {country.name}
+     
+    </div>)
+
+
 
 const App = () => {
-  const [persons, setPersons] = useState([]);
+  const [countries, setCountries] = useState([]);
 
   const [newSearch, setNewSearch] = useState("");
   useEffect(() => {
     axios.get("https://restcountries.com/v3.1/all").then((response) => {
-      setPersons(response.data);
+      setCountries(response.data);
     });
   }, []);
 
-  const filteredList = persons.filter((person) =>
-    person.name.toLowerCase().includes(newSearch.toLowerCase())
-  );
-  
+  const filteredList = newSearch === '' ? [] : countries.filter(country =>
+    country.name.toLowerCase().includes(newSearch.toLowerCase()))
 
   const handleNewSearch = (event) => {
     setNewSearch(event.target.value);
@@ -44,7 +39,7 @@ const App = () => {
       <h2>Countries</h2>
       <Filter handleNewSearch={handleNewSearch} />
 
-      <Persons filteredList={filteredList} />
+      <Render10 filteredList={filteredList}  />
     </div>
   );
 };
