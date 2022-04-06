@@ -7,15 +7,8 @@ const Filter = ({ handleNewSearch }) => (
   </div>
 );
 
-
-const Render10 = ({filteredList}) =>
-  filteredList.map(country =>
-    <div key={country.name}>
-      {country.name}
-     
-    </div>)
-
-
+const Render10 = ({ filteredList }) =>
+  filteredList.map((country) => <div key={country.name}>{country.name}</div>);
 
 const App = () => {
   const [countries, setCountries] = useState([]);
@@ -27,8 +20,12 @@ const App = () => {
     });
   }, []);
 
-  const filteredList = newSearch === '' ? [] : countries.filter(country =>
-    country.name.toLowerCase().includes(newSearch.toLowerCase()))
+  const filteredList =
+    newSearch === ""
+      ? []
+      : countries.filter((country) =>
+          country.name.toLowerCase().includes(newSearch.toLowerCase())
+        );
 
   const handleNewSearch = (event) => {
     setNewSearch(event.target.value);
@@ -39,7 +36,7 @@ const App = () => {
       <h2>Countries</h2>
       <Filter handleNewSearch={handleNewSearch} />
 
-      <Render10 filteredList={filteredList}  />
+      <Render10 filteredList={filteredList} />
     </div>
   );
 };
