@@ -7,6 +7,30 @@ const Filter = ({ handleNewSearch }) => (
   </div>
 );
 
+const RenderWeather = ({ capital }) => {
+  const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+  const request = `http://api.weatherstack.com/current?access_key=${apiKey}&query=${capital}`;
+  const [weather, setWeather] = useState([]);
+  const hook = () => {
+    axios.get(request).then((response) => {
+      setWeather(response.data.current);
+    });
+  };
+  useEffect(hook, []);
+
+  return (
+    <div>
+      <div>
+        <b>temperature:</b> {weather.temperature} ℃{" "}
+      </div>
+      <img src={weather.weather_icons} alt="weather icon" />
+      <div>
+        <b>wind:</b> {Math.round(weather.wind_speed / 3.6)} m/s
+      </div>
+    </div>
+  );
+};
+
 const Render1 = ({ country }) => {
   return (
     <div>
@@ -32,6 +56,8 @@ const Render1 = ({ country }) => {
         alt={`Flag of ${country.name.common}`}
         style={{ width: 250, height: 140 }}
       />
+      <h3>Weather in {country.capital}</h3>
+      <RenderWeather capital={country.capital} />
     </div>
   );
 };
