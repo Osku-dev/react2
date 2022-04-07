@@ -36,16 +36,19 @@ const Render1 = ({ country }) => {
   );
 };
 
-const Render10 = ({ filteredList }) =>
+const Render10 = ({ filteredList, setNewSearch }) =>
   filteredList.map((country) => (
-    <div key={country.name.common}>{country.name.common}</div>
+    <div key={country.name.common}>
+      {country.name.common}
+      <button onClick={() => setNewSearch(country.name.common)}> Show </button>
+    </div>
   ));
 
-const RenderMaster = ({ filteredList }) => {
+const RenderMaster = ({ filteredList, setNewSearch }) => {
   if (filteredList.length === 1) {
     return <Render1 country={filteredList[0]} />;
   } else if (filteredList.length < 10) {
-    return <Render10 filteredList={filteredList} />;
+    return <Render10 filteredList={filteredList} setNewSearch={setNewSearch} />;
   }
   return <div>Too many matches</div>;
 };
@@ -76,7 +79,7 @@ const App = () => {
       <h2>Countries</h2>
       <Filter handleNewSearch={handleNewSearch} />
 
-      <RenderMaster filteredList={filteredList} />
+      <RenderMaster filteredList={filteredList} setNewSearch={setNewSearch} />
     </div>
   );
 };
