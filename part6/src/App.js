@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import personService from "./services/persons";
 
 const AddForm = ({
@@ -36,6 +35,7 @@ const Persons = ({ filteredList }) => (
         <li key={person.id}>
           {" "}
           {person.name} {person.number}
+          <button>delete</button>
         </li>
       ))}
     </ul>
