@@ -28,14 +28,14 @@ const Filter = ({ handleNewSearch }) => (
   </div>
 );
 
-const Persons = ({ filteredList }) => (
+const Persons = ({ filteredList, deletePerson }) => (
   <div>
     <ul>
       {filteredList.map((person) => (
         <li key={person.id}>
           {" "}
           {person.name} {person.number}
-          <button>delete</button>
+          <button onClick={() => deletePerson(person)}>delete</button>
         </li>
       ))}
     </ul>
@@ -47,33 +47,43 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
+
   useEffect(() => {
-    personService.getAll().then((initialPersons) => {
-      setPersons(initialPersons);
-    });
+    personService.getAll().then((res) => setPersons(res));
   }, []);
 
-  const filteredList = persons.filter((person) =>
-    person.name.toLowerCase().includes(newSearch.toLowerCase())
+  const filteredList = persons.filter(({ name }) =>
+    name.toLowerCase().includes(newSearch.toLowerCase())
   );
 
   const addName = (event) => {
     event.preventDefault();
-
-    const duplicates = persons.filter((person) => person.name === newName);
-    if (duplicates.length > 0) return window.alert(`${newName} is a duplicate`);
+    if (persons.some((person) => person.name === newName)) {
+      return window.alert(`${newName} is a duplicate`);
+    }
 
     const nameObject = {
       name: newName,
-      id: persons.length + 1,
+      id: Math.floor(Math.random() * 9999999),
       number: newNumber,
     };
 
     personService.create(nameObject).then((returnedPerson) => {
       setPersons(persons.concat(returnedPerson));
-      setNewName("");
-      setNewNumber("");
     });
+    setNewName("");
+    setNewNumber("");
+  };
+
+  const deleteName = ({ id, name }) => {
+    const result = window.confirm(`Are you sure you want to delete ${name}?`);
+    if (!result) return;
+    personService
+      .deletePerson(id)
+      .then((status) => status !== 200 && window.alert("deletion failed"))
+      .then(() => {
+        personService.getAll().then((res) => setPersons(res));
+      });
   };
 
   const handleNewName = (event) => {
@@ -99,7 +109,7 @@ const App = () => {
         addName={addName}
       />
       <h2>Numbers</h2>
-      <Persons filteredList={filteredList} />
+      <Persons deletePerson={deleteName} filteredList={filteredList} />
     </div>
   );
 };
