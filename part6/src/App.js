@@ -58,10 +58,9 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault();
-   /* if (persons.some((person) => person.name === newName)) {
+    /* if (persons.some((person) => person.name === newName)) {
       return window.alert(`${newName} is a duplicate`);
     }*/
-    
 
     const nameObject = {
       name: newName,
@@ -69,26 +68,31 @@ const App = () => {
       number: newNumber,
     };
 
-    if(!persons.some(e => e.name === nameObject.name)) {
-
-    personService.create(nameObject).then((returnedPerson) => {
-      setPersons(persons.concat(returnedPerson));
-    });
+    if (!persons.some((e) => e.name === nameObject.name)) {
+      personService.create(nameObject).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+      });
+      setNewName("");
+      setNewNumber("");
+    } else {
+      const result = window.confirm(
+        `${nameObject.name} is already in the phonebook. Would you like to update the number?`
+      );
+      if (!result) return;
+      const updatedNumber = persons.filter(
+        (personObject) => personObject.name === nameObject.name
+      );
+      personService
+        .update(updatedNumber[0].id, { ...nameObject, number: newNumber })
+        .then((returnedPersons) => {
+          console.log(returnedPersons)
+          setPersons(returnedPersons);
+          
+        });
+    }
     setNewName("");
     setNewNumber("");
-    }
-   else {
-  const result = window.confirm(`${nameObject.name} is already in the phonebook. Would you like to update the number?`);
-  if (!result) return;
-  const updatedNumber = persons.filter(personObject => personObject.name === nameObject.name)
-  personService
-    .update(updatedNumber[0].id, { ...nameObject, number: newNumber })
-    .then(returnedPersons => {
-      setNewName('')
-      setNewNumber('')
-      setPersons(returnedPersons)
-   })}};
-
+  };
 
   const deleteName = ({ id, name }) => {
     const result = window.confirm(`Are you sure you want to delete ${name}?`);
