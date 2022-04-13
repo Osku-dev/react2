@@ -49,7 +49,9 @@ const App = () => {
   const [newSearch, setNewSearch] = useState("");
 
   useEffect(() => {
-    personService.getAll().then((res) => setPersons(res));
+    personService
+    .getAll()
+    .then((res) => setPersons(res));
   }, []);
 
   const filteredList = persons.filter(({ name }) =>
@@ -67,29 +69,38 @@ const App = () => {
       id: Math.floor(Math.random() * 9999999),
       number: newNumber,
     };
+    setNewName("");
+    setNewNumber("");
 
     if (!persons.some((e) => e.name === nameObject.name)) {
-      personService.create(nameObject).then((returnedPerson) => {
+      personService
+      .create(nameObject)
+      .then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
       });
-      setNewName("");
-      setNewNumber("");
-    } else {
-      const result = window.confirm(
-        `${nameObject.name} is already in the phonebook. Would you like to update the number?`
-      );
-      if (!result) return;
-      const updatedNumber = persons.filter(
-        (personObject) => personObject.name === nameObject.name
-      );
-      personService
-        .update(updatedNumber[0].id, { ...nameObject, number: newNumber })
-        .then((returnedPersons) => {
-          console.log(returnedPersons)
-          setPersons(returnedPersons);
-          
-        });
+      return;
     }
+    const result = window.confirm(
+      `${nameObject.name} is already in the phonebook. Would you like to update the number?`
+    );
+
+    if (!result) return;
+
+    const updatedNumber = persons.find(
+      (personObject) => personObject.name === nameObject.name
+    );
+
+    const newPersons = persons.filter(
+      (person) => person.id !== updatedNumber.id
+    );
+
+    personService
+      .update(updatedNumber.id, nameObject)
+
+      .then((returnedPersons) => {
+        setPersons([...newPersons, returnedPersons]);
+      });
+
     setNewName("");
     setNewNumber("");
   };
