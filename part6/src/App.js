@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import personService from "./services/persons";
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null;
+  }
+
+  return <div className="success">{message}</div>;
+};
+
 const AddForm = ({
   newName,
   newNumber,
@@ -47,11 +55,10 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    personService
-    .getAll()
-    .then((res) => setPersons(res));
+    personService.getAll().then((res) => setPersons(res));
   }, []);
 
   const filteredList = persons.filter(({ name }) =>
@@ -73,10 +80,13 @@ const App = () => {
     setNewNumber("");
 
     if (!persons.some((e) => e.name === nameObject.name)) {
-      personService
-      .create(nameObject)
-      .then((returnedPerson) => {
+      personService.create(nameObject).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
+
+        setErrorMessage(`Number added`);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
       });
       return;
     }
@@ -101,6 +111,11 @@ const App = () => {
         setPersons([...newPersons, returnedPersons]);
       });
 
+    setErrorMessage(`Number updated`);
+    setTimeout(() => {
+      setErrorMessage(null);
+    }, 5000);
+
     setNewName("");
     setNewNumber("");
   };
@@ -114,6 +129,11 @@ const App = () => {
       .then(() => {
         personService.getAll().then((res) => setPersons(res));
       });
+
+    setErrorMessage(`Number deleted`);
+    setTimeout(() => {
+      setErrorMessage(null);
+    }, 5000);
   };
 
   const handleNewName = (event) => {
@@ -130,6 +150,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter handleNewSearch={handleNewSearch} />
       <AddForm
         newName={newName}
