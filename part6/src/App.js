@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import personService from "./services/persons";
 
-const Notification = ({ message }) => {
-  if (message === null) {
+const Notification = ({ message, errorMessage }) => {
+  if (message !== null) {
+    return <div className="success">{message}</div>;
+  }
+  if (errorMessage !== null) {
+    return <div className="error">{errorMessage}</div>;
+  } else {
     return null;
   }
-
-  return <div className="success">{message}</div>;
 };
-
 const AddForm = ({
   newName,
   newNumber,
@@ -55,6 +57,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
+  const [message, setMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
@@ -83,10 +86,10 @@ const App = () => {
       personService.create(nameObject).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
 
-        setErrorMessage(`Number added`);
+        setMessage(`Number added`);
         setTimeout(() => {
-          setErrorMessage(null);
-        }, 5000);
+          setMessage(null);
+        }, 3000);
       });
       return;
     }
@@ -109,13 +112,20 @@ const App = () => {
 
       .then((returnedPersons) => {
         setPersons([...newPersons, returnedPersons]);
+
+        setMessage(`Number updated`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      })
+      .catch((error) => {
+        setErrorMessage(
+          `${nameObject.name} has already been removed from the server.`
+        );
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
       });
-
-    setErrorMessage(`Number updated`);
-    setTimeout(() => {
-      setErrorMessage(null);
-    }, 5000);
-
     setNewName("");
     setNewNumber("");
   };
@@ -128,12 +138,12 @@ const App = () => {
       .then((status) => status !== 200 && window.alert("deletion failed"))
       .then(() => {
         personService.getAll().then((res) => setPersons(res));
-      });
 
-    setErrorMessage(`Number deleted`);
-    setTimeout(() => {
-      setErrorMessage(null);
-    }, 5000);
+        setMessage(`Number deleted`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      });
   };
 
   const handleNewName = (event) => {
@@ -150,7 +160,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} />
+      <Notification message={message} errorMessage={errorMessage} />
       <Filter handleNewSearch={handleNewSearch} />
       <AddForm
         newName={newName}
