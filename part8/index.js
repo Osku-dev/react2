@@ -13,6 +13,11 @@ let persons =  [
       "name": "jjdjdj",
       "id": 9839179,
       "number": "62626"
+    },
+    {
+      "name": "test",
+      "id": 412412,
+      "number": "566246"
     }
   ]
 
@@ -22,6 +27,10 @@ app.get('/', (req, res) => {
 
 app.get('/api/persons', (req, res) => {
     res.json(persons)
+  })
+
+  app.get('/info', (req, res) => {
+    res.send(`Phonebook has info for ${persons.length} people <br></br>${new Date()}` )
   })
 
 app.get('/api/persons/:id', (request, response) => {
