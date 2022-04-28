@@ -4,7 +4,15 @@ const app = express()
 
 app.use(express.json())
 
+morgan.token('person', (request, response) => {
+  return JSON.stringify(request.body)
+})
+
+
 app.use(morgan('tiny'))
+app.use(morgan(':person'))
+
+
 
 
 
@@ -86,7 +94,7 @@ app.get('/api/persons/:id', (request, response) => {
   
     response.json(person)
     
-   
+   morgan.token('body', (req, res) => JSON.stringify(req.body));
   })
 
 const PORT = 3001
