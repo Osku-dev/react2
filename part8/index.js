@@ -86,7 +86,7 @@ app.get('/api/persons/:id', (request, response) => {
   
     response.json(person)
     
-    morgan.token(person)
+   
   })
 
 const PORT = 3001
