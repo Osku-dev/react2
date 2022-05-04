@@ -76,7 +76,7 @@ const App = () => {
 
     const nameObject = {
       name: newName,
-      id: Math.floor(Math.random() * 9999999),
+      //id: Math.floor(Math.random() * 9999999),
       number: newNumber,
     };
     setNewName("");
@@ -135,7 +135,7 @@ const App = () => {
     if (!result) return;
     personService
       .deletePerson(id)
-      .then((status) => status !== 200 && window.alert("deletion failed"))
+      .then((status) => status !== 204 && window.alert("deletion failed"))
       .then(() => {
         personService.getAll().then((res) => setPersons(res));
 
