@@ -1,4 +1,1 @@
-{"scripts": {
-    "start": "cd part8 && npm start"
-   
-  }} 
+{"scripts":{"start":"cd part8 && npm start"},"dependencies":{"mongoose":"^6.3.3"}}
