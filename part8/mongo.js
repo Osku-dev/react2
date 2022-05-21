@@ -11,7 +11,6 @@ const url = `mongodb+srv://fullstack:${password}@cluster0.wag1t.mongodb.net/pers
 
 mongoose.connect(url);
 
-
 const personSchema = new mongoose.Schema({
   name: String,
   number: Number,
