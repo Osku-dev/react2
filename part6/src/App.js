@@ -90,7 +90,15 @@ const App = () => {
         setTimeout(() => {
           setMessage(null);
         }, 3000);
-      });
+      })
+      .catch(error => {
+        
+        console.log(error.response.data)
+        setErrorMessage('Name is shorter than the minimum allowed length (3)');
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 3000);
+      })
       return;
     }
     const result = window.confirm(
