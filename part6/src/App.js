@@ -94,7 +94,7 @@ const App = () => {
       .catch(error => {
         
         console.log(error.response.data)
-        setErrorMessage('Name is shorter than the minimum allowed length (3)');
+        setErrorMessage(error.response.data.error);
         setTimeout(() => {
           setErrorMessage(null);
         }, 3000);
